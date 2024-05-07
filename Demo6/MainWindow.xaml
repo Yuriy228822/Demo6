@@ -1,0 +1,94 @@
+﻿<Window x:Class="Demo6.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Demo6"
+        mc:Ignorable="d"
+        Title="Shopping Cart" Height="450" Width="800">
+   
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Фильтры -->
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <!-- Фильтр по категории -->
+            <ComboBox ItemsSource="{Binding AvailableCategories}"
+                      SelectedItem="{Binding FilterCategory, Mode=TwoWay}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      SelectedIndex="0"
+                      Width="150"/>
+            <!-- Фильтр по производителю -->
+            <ComboBox ItemsSource="{Binding AvailableManufacturers}"
+                      SelectedItem="{Binding FilterManufacturer, Mode=TwoWay}"
+                      DisplayMemberPath="Name"
+                      SelectedValuePath="Name"
+                      SelectedIndex="0"
+                      Width="150"/>
+            <!-- Кнопка сброса фильтров -->
+            <Button Content="Сбросить фильтры"
+                    Command="{Binding ResetFiltersCommand}"/>
+        </StackPanel>
+
+        <!-- Сортировка -->
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <!-- Выбор атрибута для сортировки -->
+            <ComboBox ItemsSource="{Binding SortableProperties}"
+                      SelectedItem="{Binding SortBy, Mode=TwoWay}"
+                      SelectedIndex="0"
+                      Width="150"/>
+            <!-- Направление сортировки -->
+            <ComboBox ItemsSource="{Binding SortDirections}"
+                      SelectedItem="{Binding SortDirection, Mode=TwoWay}"
+                      SelectedIndex="0"
+                      Width="100"/>
+            <!-- Кнопка сброса сортировки -->
+            <Button Content="Сбросить сортировку"
+                    Command="{Binding ResetSortingCommand}"/>
+        </StackPanel>
+
+        <!-- Поиск -->
+        <StackPanel Orientation="Horizontal" Grid.Row="2">
+            <!-- Поле для ввода текста поиска -->
+            <TextBox Text="{Binding SearchText, Mode=TwoWay}"
+                     Width="150"/>
+            <!-- Кнопка для выполнения поиска -->
+            <Button Content="Искать"
+                    Command="{Binding SearchCommand}"/>
+            <!-- Кнопка для сброса поиска -->
+            <Button Content="Сбросить поиск"
+                    Command="{Binding ResetSearchCommand}"/>
+        </StackPanel>
+
+        <!-- Список товаров -->
+        <ListBox ItemsSource="{Binding Products}" Grid.Row="3">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="5">
+                        <Grid>
+                            <!-- Фото -->
+                            <Image Source="{Binding ImagePath}" Width="100" Height="100" Stretch="UniformToFill" />
+
+                            <!-- Наименование товара -->
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="110,0,0,0" />
+
+                            <!-- Описание товара -->
+                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="110,20,0,0" />
+
+                            <!-- Цена -->
+                            <TextBlock Text="{Binding Price, StringFormat=\{0:c\}}" Margin="110,70,0,0" />
+
+                            <!-- Наличие на складе -->
+                            <TextBlock Text="{Binding QuantityInStock, StringFormat=Наличие на складе: \{0\} шт.}" Margin="110,90,0,0" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>
